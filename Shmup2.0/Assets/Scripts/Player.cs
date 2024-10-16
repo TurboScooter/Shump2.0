@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] float cooldownAmount;
     int hitPoints = 3;
     bool bulletColor = true;
+    float movespeed = 1;
     
     void Start()
     {
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        transform.position = new Vector2(transform.position.x + movespeed, transform.position.y);
         cooldown -= Time.deltaTime;
         Input.GetAxisRaw("Horizontal");
         Shoot();
