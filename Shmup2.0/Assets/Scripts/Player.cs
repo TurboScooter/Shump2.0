@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -10,16 +11,24 @@ public class Player : MonoBehaviour
     [SerializeField] float cooldownAmount;
     int hitPoints = 3;
     bool bulletColor = true;
-    float movespeed = 1;
-    
+    [SerializeField]float speed;
+    Rigidbody2D rb;
     void Start()
     {
-        
+        rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
+    private void FixedUpdate()
+    {
+        ;
+        float horizontal = Input.GetAxis("Horizontal");
+      rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+
+
+    }
     void Update()
     {
-        transform.position = new Vector2(transform.position.x + movespeed, transform.position.y);
+
         cooldown -= Time.deltaTime;
         Input.GetAxisRaw("Horizontal");
         Shoot();
@@ -31,8 +40,8 @@ public class Player : MonoBehaviour
         if(Input.GetKey(KeyCode.Space) && cooldown <= 0 && bulletColor == true)
         {
             Instantiate(bullet, gameObject.transform.position, gameObject.transform.rotation);
-            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-            rb.velocity = Vector2.up ;
+            Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
+            rbBullet.velocity = new Vector2(0,1) ;
             cooldown = cooldownAmount;
         }
         else if(Input.GetKey(KeyCode.Space) && cooldown <= 0 && bulletColor == false)
@@ -57,7 +66,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(!gameObject.CompareTag("Bullet"))
+        if (!collision.gameObject.CompareTag("Bullet") || !collision.gameObject.CompareTag("Bullet2"))
         hitPoints--;
         if (hitPoints <= 0)
             Destroy(gameObject);
