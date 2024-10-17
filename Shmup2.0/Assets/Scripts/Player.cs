@@ -20,8 +20,8 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        ;
-        float horizontal = Input.GetAxis("Horizontal");
+        
+      float horizontal = Input.GetAxis("Horizontal");
       rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
 
 
@@ -39,16 +39,12 @@ public class Player : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.Space) && cooldown <= 0 && bulletColor == true)
         {
-            Instantiate(bullet, gameObject.transform.position, gameObject.transform.rotation);
-            Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
-            rbBullet.velocity = new Vector2(0,1) ;
+            Instantiate(bullet, transform.position, transform.rotation);
             cooldown = cooldownAmount;
         }
         else if(Input.GetKey(KeyCode.Space) && cooldown <= 0 && bulletColor == false)
         {
-            Instantiate(bullet2, gameObject.transform.position, gameObject.transform.rotation);
-            Rigidbody2D rb2 = bullet.GetComponent<Rigidbody2D>();
-            rb2.velocity = Vector2.up;
+            Instantiate(bullet2, transform.position, transform.rotation);
             cooldown = cooldownAmount;
         }
     }
