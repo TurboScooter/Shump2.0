@@ -4,8 +4,15 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Bullet
+  - PyroBullet
+  - CryoBullet
+  - HydroBullet
+  - ElectroBullet
+  - DendroBullet
+  - GeoBullet
+  - AnemoBullet
   - Bullet2
+  - Bullet
   layers:
   - Default
   - TransparentFX

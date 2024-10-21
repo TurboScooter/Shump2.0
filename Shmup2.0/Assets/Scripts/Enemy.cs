@@ -11,6 +11,10 @@ public class Enemy : MonoBehaviour
     bool hydro = false;
     bool pyro = false;
     bool cryo = false;
+    bool dendro = false;
+    bool geo = false;
+    bool electro = false;
+    bool anemo = false;
     bool reverseVaporize = false;
     bool Vaporize = false;
     bool reverseMelt = false;
@@ -18,7 +22,24 @@ public class Enemy : MonoBehaviour
     bool freeze = false;
     bool Damage150 = false;
     bool Damage200 = false;
+    bool swirl = false;
+    bool crystalize = false;
+    bool shatter = false;
+    bool overloaded = false;
+    bool electroCharged = false;
+    bool superConduct = false;
+    bool bloom = false;
+    bool hyperBloom = false;
+    bool burgeon = false;
+    bool burning = false;
+    bool quicken = false;
+    bool spread = false;
+    bool aggrevate = false;
+
     bool freezePosition = false;
+    [SerializeField]GameObject dendroCore;
+    [SerializeField] GameObject CrystalizeShard;
+
    [SerializeField] Bullet bullet;
     [SerializeField]float doubleDamageTime;
     [SerializeField] float doubleTimeAmount;
@@ -108,6 +129,14 @@ public class Enemy : MonoBehaviour
                 cryo = true;
             else if(collision.gameObject.CompareTag("PyroBullet"))
                 pyro = true;
+            else if (collision.gameObject.CompareTag("DendroBullet"))
+                dendro = true;
+            else if (collision.gameObject.CompareTag("ElectroBullet"))
+                electro = true;
+            else if (collision.gameObject.CompareTag("GeoBullet"))
+                geo = true;
+            else if (collision.gameObject.CompareTag("AnemoBullet"))
+                anemo = true;
 
             score += 10;
             damageTaken(bullet.damage);
