@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -36,16 +37,30 @@ public class Enemy : MonoBehaviour
     bool spread = false;
     bool aggrevate = false;
 
+    [SerializeField] float ElementalTimers;
+    float cryoTime;
+    float hydroTime;
+    float pyroTime;
+    float geoTime;
+    float electroTime;
+    float anemoTime;
+    float dendroTime;
+    [SerializeField]float reactionTimer;
+    float freezeTime;
+    float burgeonTime;
     bool freezePosition = false;
     [SerializeField]GameObject dendroCore;
     [SerializeField] GameObject CrystalizeShard;
+    Rigidbody2D rb;
+    RigidbodyConstraints2D rbConstraints;
+    [SerializeField] float baseDamage;
+    
 
-   [SerializeField] Bullet bullet;
-    [SerializeField]float doubleDamageTime;
-    [SerializeField] float doubleTimeAmount;
     void Start()
     {
         powerUpChance = Random.Range(1, 5);
+        rb = GetComponent<Rigidbody2D>();
+        rbConstraints = rb.constraints;
     }
 
     public void damageTaken(float damage)
@@ -60,6 +75,8 @@ public class Enemy : MonoBehaviour
         else if (Damage150 && reverseMelt)
         {
             hitPoints -= damage / 100 * 150;
+            pyro = false;
+            cryo = false;
         }
         else if (Damage200 && Vaporize)
         {
@@ -73,12 +90,6 @@ public class Enemy : MonoBehaviour
             pyro = false;
             hydro = true;
         }
-        else if (freeze && cryo || freeze && hydro)
-        {
-            hitPoints -= damage;
-            hydro = false;
-
-        }
         else
             hitPoints -= damage;
 
@@ -87,7 +98,8 @@ public class Enemy : MonoBehaviour
     public void Update()
     {
         Reactions();
-        doubleDamageTime -= Time.deltaTime;
+        Timers();
+        Applyfreeze();
     }
 
     public void Reactions()
@@ -110,36 +122,151 @@ public class Enemy : MonoBehaviour
             Damage200 = true;
         if(hydro && !cryo || cryo && !hydro)
             freeze = true;
-        if (freeze && cryo || freeze && hydro)
+        if (electro && !cryo || cryo && !electro)
+            superConduct = true;
+        if(pyro && !electro || electro && !pyro)
+            overloaded = true;
+        if(geo && !pyro || geo && !cryo || geo && !hydro || geo && !electro)
+            crystalize = true;
+        if(pyro && !geo|| hydro && !geo || cryo && !geo || electro && !geo)
+            crystalize = true;
+        if (dendro && !hydro || hydro && !dendro)
+            bloom = true;
+        if(dendro && !pyro || pyro && !dendro)
+            burgeon = true;
+        if(dendro && !electro || electro && !dendro)
+            quicken = true;
+
+        if(electroTime <= 0)
+            electro = false; 
+        if (cryoTime <= 0)
+            cryo = false;
+        if (pyroTime <= 0)
+            pyro = false;
+        if (hydroTime <= 0)
+            hydro = false;
+        if (geoTime <= 0)
+            geo = false;
+        if (dendroTime <= 0)
+            dendro = false;
+        if (anemoTime <= 0)
+            anemo = false;
+
+        if(!pyro && !hydro)
         {
-            
+            reverseVaporize = false;
+            Vaporize = false;
         }
+        if(!cryo && !pyro)
+        {
+            Melt = false;
+            reverseMelt = false;
+        }
+        if(!hydro && !cryo)
+        {
+            freeze = false;
+        }
+        if(!electro && !cryo)
+        {
+            electroCharged = false;
+        }
+        if (!electro && !pyro)
+        {
+            overloaded = false;
+        }
+        if (!geo && !hydro || !geo && !pyro || !geo && !cryo || !geo && !electro)
+        {
+            crystalize = false;
+        }
+        if (!dendro && !hydro)
+        {
+            bloom = false;
+        }
+        if (!dendro && !pyro)
+        {
+            burgeon = false;
+        }
+    }
 
+    void Applyfreeze()
+    {
+        
+        if(hydro && freeze && cryo)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            hydro = false;
+            freeze = false;
+            freezeTime = reactionTimer;
 
+        }else if(freezeTime <= 0)
+        {
+            rb.constraints =    rbConstraints;
+          
+           cryo = false;
+        }
+    }
+
+    void ApplyOverload()
+    {
+        if(electro && overloaded && pyro)
+        {
+
+        }
+    }
+
+    void ApplySuperConduct()
+    {
 
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    void ApplyElectroCharged()
     {
-        if(collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Bullet") || collision.gameObject.CompareTag("Bullet2"))
-        {
-            if (collision.gameObject.CompareTag("HydroBullet"))
-                hydro = true;
-            else if(collision.gameObject.CompareTag("CryoBullet"))
-                cryo = true;
-            else if(collision.gameObject.CompareTag("PyroBullet"))
-                pyro = true;
-            else if (collision.gameObject.CompareTag("DendroBullet"))
-                dendro = true;
-            else if (collision.gameObject.CompareTag("ElectroBullet"))
-                electro = true;
-            else if (collision.gameObject.CompareTag("GeoBullet"))
-                geo = true;
-            else if (collision.gameObject.CompareTag("AnemoBullet"))
-                anemo = true;
 
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)    
+    {
+        if (collision.gameObject.CompareTag("HydroBullet"))
+        {
+            hydro = true;
+            hydroTime = ElementalTimers;
+        }
+        else if (collision.gameObject.CompareTag("CryoBullet"))
+        {
+            cryo = true;
+            cryoTime = ElementalTimers;
+        }
+        else if (collision.gameObject.CompareTag("PyroBullet"))
+        {
+            pyro = true;
+            pyroTime = ElementalTimers;
+        }
+        else if (collision.gameObject.CompareTag("DendroBullet"))
+        {
+            dendro = true;
+            dendroTime = ElementalTimers;
+        }
+        else if (collision.gameObject.CompareTag("ElectroBullet"))
+        {
+            electro = true;
+            electroTime = ElementalTimers;
+        }
+        else if (collision.gameObject.CompareTag("GeoBullet"))
+        {
+            geo = true;
+            geoTime = ElementalTimers;
+        }
+        else if (collision.gameObject.CompareTag("AnemoBullet"))
+        {
+            anemo = true;
+            anemoTime = ElementalTimers;
+        }
+
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("AnemoBullet") || collision.gameObject.CompareTag("GeoBullet") || collision.gameObject.CompareTag("ElectroBullet") || collision.gameObject.CompareTag("DendroBullet") || collision.gameObject.CompareTag("PyroBullet") || collision.gameObject.CompareTag("CryoBullet") || collision.gameObject.CompareTag("HydroBullet"))
+        {
+            damageTaken(baseDamage);
             score += 10;
-            damageTaken(bullet.damage);
             if(hitPoints <= 0)
             {
                 score += 100;
@@ -151,4 +278,17 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+    
+    void Timers()
+    {
+        freezeTime -= Time.deltaTime;
+        cryoTime -= Time.deltaTime;
+        pyroTime -= Time.deltaTime;
+        electroTime -= Time.deltaTime;
+        dendroTime -= Time.deltaTime;
+        geoTime -= Time.deltaTime;
+        hydroTime -= Time.deltaTime;
+        anemoTime -= Time.deltaTime;
+    }
+
 }

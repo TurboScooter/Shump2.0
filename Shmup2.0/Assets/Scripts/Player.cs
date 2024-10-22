@@ -5,8 +5,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] GameObject bullet;
-    [SerializeField] GameObject bullet2;
+    [SerializeField] GameObject electroBullet;
+    [SerializeField] GameObject cryoBullet;
+    [SerializeField] GameObject pyroBullet;
+    [SerializeField] GameObject hydroBullet;
+    [SerializeField] GameObject anemoBullet;
+    [SerializeField] GameObject geoBullet;
+    [SerializeField] GameObject dendroBullet;
+    int currentElement = 1;
     float cooldown;
     [SerializeField] float cooldownAmount;
     int hitPoints = 3;
@@ -32,31 +38,93 @@ public class Player : MonoBehaviour
         cooldown -= Time.deltaTime;
         Input.GetAxisRaw("Horizontal");
         Shoot();
-        BulletChange();
+        ElementChange();
     }
 
     public void Shoot()
     {
-        if(Input.GetKey(KeyCode.Space) && cooldown <= 0 && bulletColor == true)
+        if (Input.GetKey(KeyCode.Space) && cooldown <= 0 && currentElement == 1)
         {
-            Instantiate(bullet, transform.position, transform.rotation);
+            Instantiate(cryoBullet, transform.position, transform.rotation);
             cooldown = cooldownAmount;
-        }
-        else if(Input.GetKey(KeyCode.Space) && cooldown <= 0 && bulletColor == false)
+        }//cryo
+        else if (Input.GetKey(KeyCode.Space) && cooldown <= 0 && currentElement == 2)
         {
-            Instantiate(bullet2, transform.position, transform.rotation);
+            Instantiate(hydroBullet, transform.position, transform.rotation);
             cooldown = cooldownAmount;
-        }
+        }//hydro
+        else if (Input.GetKey(KeyCode.Space) && cooldown <= 0 && currentElement == 3)
+        {
+            Instantiate(dendroBullet, transform.position, transform.rotation);
+            cooldown = cooldownAmount;
+        }//dendro
+        else if (Input.GetKey(KeyCode.Space) && cooldown <= 0 && currentElement == 4)
+        {
+            Instantiate(electroBullet, transform.position, transform.rotation);
+            cooldown = cooldownAmount;
+        }//electro
+        else if (Input.GetKey(KeyCode.Space) && cooldown <= 0 && currentElement == 5)
+        {
+            Instantiate(geoBullet, transform.position, transform.rotation);
+            cooldown = cooldownAmount;
+        }//geo
+        else if (Input.GetKey(KeyCode.Space) && cooldown <= 0 && currentElement == 6)
+        {
+            Instantiate(anemoBullet, transform.position, transform.rotation);
+            cooldown = cooldownAmount;
+        }//anemo
+        else if (Input.GetKey(KeyCode.Space) && cooldown <= 0 && currentElement == 7)
+        {
+            Instantiate(pyroBullet, transform.position, transform.rotation);
+            cooldown = cooldownAmount;
+        }//pyro
     }
 
-    public void BulletChange()
+    public void ElementChange()
     {
         if(Input.GetKeyDown(KeyCode.Z)) 
         {
-            if (bulletColor == true)
-                bulletColor = false;
-            else
-                bulletColor = true;
+            currentElement += 1;
+        }
+        if(Input.GetKeyDown(KeyCode.X))
+        { 
+            currentElement -= 1; 
+        }
+        if(currentElement > 7)
+        {
+            currentElement = 1;
+        }
+        if(currentElement < 1)
+        {
+            currentElement = 7;
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            currentElement = 1;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            currentElement = 2;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            currentElement = 3;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            currentElement = 4;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            currentElement = 5;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            currentElement = 6;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            currentElement = 7;
         }
     }
 

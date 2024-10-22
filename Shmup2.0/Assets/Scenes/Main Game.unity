@@ -201,9 +201,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitPoints: 100
   score: 0
-  bullet: {fileID: -2302433993148341232, guid: ad745134076298040b73c5bb2bc935a4, type: 3}
-  doubleDamageTime: 0
-  doubleTimeAmount: 4
+  ElementalTimers: 0
+  reactionTimer: 0
+  dendroCore: {fileID: 0}
+  CrystalizeShard: {fileID: 0}
+  baseDamage: 0
 --- !u!212 &34267472
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -286,7 +288,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -297,7 +299,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 7
+  m_Constraints: 4
 --- !u!1001 &53342436
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -345,6 +347,10 @@ PrefabInstance:
     - target: {fileID: 65101877791642769, guid: 6aabc065e394b80449df15ab709662cc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4402501662740517540, guid: 6aabc065e394b80449df15ab709662cc, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6936038747190761657, guid: 6aabc065e394b80449df15ab709662cc, type: 3}
       propertyPath: m_Name
@@ -403,6 +409,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4402501662740517540, guid: 0fe072e8b15d27640a8ce15a9ca3c422, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6936038747190761657, guid: 0fe072e8b15d27640a8ce15a9ca3c422, type: 3}
       propertyPath: m_Name
       value: Circle 6
@@ -459,6 +469,10 @@ PrefabInstance:
     - target: {fileID: 65101877791642769, guid: 388be1786b896bc4191417dea2b758eb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4402501662740517540, guid: 388be1786b896bc4191417dea2b758eb, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6936038747190761657, guid: 388be1786b896bc4191417dea2b758eb, type: 3}
       propertyPath: m_Name
@@ -517,6 +531,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4402501662740517540, guid: 6afc465c3eaa95e43b4a3b6af465b54f, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6936038747190761657, guid: 6afc465c3eaa95e43b4a3b6af465b54f, type: 3}
       propertyPath: m_Name
       value: Circle 5
@@ -534,6 +552,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1868307525537813750, guid: ad745134076298040b73c5bb2bc935a4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 221902106869158935, guid: ad745134076298040b73c5bb2bc935a4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.741586
@@ -634,6 +656,10 @@ PrefabInstance:
     - target: {fileID: 5971787661976597544, guid: 94651e97bc111d0469705cf7064e4796, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7343471665845226613, guid: 94651e97bc111d0469705cf7064e4796, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -874,6 +900,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4402501662740517540, guid: 85a0a57af1c103a44a0aa6264ea85d97, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6936038747190761657, guid: 85a0a57af1c103a44a0aa6264ea85d97, type: 3}
       propertyPath: m_Name
       value: Circle
@@ -891,6 +921,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6648065419654445586, guid: f94b154e06fb28d42a3f61fbb95a3e56, type: 3}
+      propertyPath: geoBullet
+      value: 
+      objectReference: {fileID: 6936038747190761657, guid: 388be1786b896bc4191417dea2b758eb, type: 3}
+    - target: {fileID: 6648065419654445586, guid: f94b154e06fb28d42a3f61fbb95a3e56, type: 3}
+      propertyPath: cryoBullet
+      value: 
+      objectReference: {fileID: 3099399654459425609, guid: 94651e97bc111d0469705cf7064e4796, type: 3}
+    - target: {fileID: 6648065419654445586, guid: f94b154e06fb28d42a3f61fbb95a3e56, type: 3}
+      propertyPath: pyroBullet
+      value: 
+      objectReference: {fileID: 6936038747190761657, guid: 85a0a57af1c103a44a0aa6264ea85d97, type: 3}
+    - target: {fileID: 6648065419654445586, guid: f94b154e06fb28d42a3f61fbb95a3e56, type: 3}
+      propertyPath: anemoBullet
+      value: 
+      objectReference: {fileID: 6936038747190761657, guid: 6aabc065e394b80449df15ab709662cc, type: 3}
+    - target: {fileID: 6648065419654445586, guid: f94b154e06fb28d42a3f61fbb95a3e56, type: 3}
+      propertyPath: hydroBullet
+      value: 
+      objectReference: {fileID: 8448132942128869838, guid: ad745134076298040b73c5bb2bc935a4, type: 3}
+    - target: {fileID: 6648065419654445586, guid: f94b154e06fb28d42a3f61fbb95a3e56, type: 3}
+      propertyPath: dendroBullet
+      value: 
+      objectReference: {fileID: 6936038747190761657, guid: 0fe072e8b15d27640a8ce15a9ca3c422, type: 3}
+    - target: {fileID: 6648065419654445586, guid: f94b154e06fb28d42a3f61fbb95a3e56, type: 3}
+      propertyPath: electroBullet
+      value: 
+      objectReference: {fileID: 6936038747190761657, guid: 6afc465c3eaa95e43b4a3b6af465b54f, type: 3}
     - target: {fileID: 7864138506744138342, guid: f94b154e06fb28d42a3f61fbb95a3e56, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

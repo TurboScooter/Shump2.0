@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(gameObject.GetComponent<Rigidbody2D>().velocity.x, bulletSpeed);
         Destroy(gameObject, 8f);
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if(!collision.gameObject.CompareTag("Player"))
         Destroy(gameObject);
