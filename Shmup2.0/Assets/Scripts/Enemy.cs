@@ -9,9 +9,9 @@ public class Enemy : MonoBehaviour
     GameObject powerUp;
     int powerUpChance;
     [SerializeField]int score;
-    bool hydro = false;
+    [SerializeField] bool hydro = false;
     bool pyro = false;
-    bool cryo = false;
+    [SerializeField] bool cryo = false;
     bool dendro = false;
     bool geo = false;
     bool electro = false;
@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     bool Vaporize = false;
     bool reverseMelt = false;
     bool Melt = false;
-    bool freeze = false;
+    [SerializeField] bool freeze = false;
     bool Damage150 = false;
     bool Damage200 = false;
     bool swirl = false;
@@ -48,13 +48,15 @@ public class Enemy : MonoBehaviour
     [SerializeField]float reactionTimer;
     float freezeTime;
     float burgeonTime;
-    bool freezePosition = false;
+    [SerializeField]bool freezePosition = false;
     [SerializeField]GameObject dendroCore;
     [SerializeField] GameObject CrystalizeShard;
     Rigidbody2D rb;
     RigidbodyConstraints2D rbConstraints;
     [SerializeField] float baseDamage;
-    
+    [SerializeField] float overloadedRadius;
+    [SerializeField] float overloadedDamage;
+    [SerializeField]float levelMultiplier;
 
     void Start()
     {
@@ -100,6 +102,7 @@ public class Enemy : MonoBehaviour
         Reactions();
         Timers();
         Applyfreeze();
+        ApplyOverload();
     }
 
     public void Reactions()
@@ -195,23 +198,41 @@ public class Enemy : MonoBehaviour
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
             hydro = false;
-            freeze = false;
             freezeTime = reactionTimer;
+            StartCoroutine("RemoveFreeze");
 
-        }else if(freezeTime <= 0)
-        {
-            rb.constraints =    rbConstraints;
-          
-           cryo = false;
         }
     }
+    IEnumerator RemoveFreeze()
+    {
 
+        yield return new WaitForSeconds(freezeTime);
+        freeze = false;
+        cryo = false;
+    }
     void ApplyOverload()
     {
+        overloadedDamage = 2 * levelMultiplier;
+
+        Vector2 point = new Vector2(transform.position.y, transform.position.x);
         if(electro && overloaded && pyro)
         {
-
-        }
+                
+                Collider2D[] hitColliders = Physics2D.OverlapCircleAll(point, overloadedRadius);
+                foreach (Collider2D hitCollider in hitColliders)
+                {
+                    if (hitCollider.gameObject.CompareTag("Enemy"))
+                    {
+                        Debug.Log(hitCollider.gameObject);
+                        
+                        hitCollider.gameObject.GetComponent<Enemy>().damageTaken(overloadedDamage);
+                    }
+                }
+              
+                electro = false;
+                pyro = false;
+                overloaded = false;
+            }
     }
 
     void ApplySuperConduct()

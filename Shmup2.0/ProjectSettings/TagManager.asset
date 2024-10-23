@@ -13,6 +13,7 @@ TagManager:
   - AnemoBullet
   - Bullet2
   - Bullet
+  - Enemy
   layers:
   - Default
   - TransparentFX
