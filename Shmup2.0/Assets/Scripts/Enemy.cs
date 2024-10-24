@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Enemy : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]int score;
     [SerializeField] bool hydro = false;
     bool pyro = false;
-    [SerializeField] bool cryo = false;
-    bool dendro = false;
+    bool cryo = false;
+    [SerializeField] bool dendro = false;
     bool geo = false;
     bool electro = false;
     bool anemo = false;
@@ -20,7 +21,7 @@ public class Enemy : MonoBehaviour
     bool Vaporize = false;
     bool reverseMelt = false;
     bool Melt = false;
-    [SerializeField] bool freeze = false;
+    bool freeze = false;
     bool Damage150 = false;
     bool Damage200 = false;
     bool swirl = false;
@@ -29,7 +30,7 @@ public class Enemy : MonoBehaviour
     bool overloaded = false;
     bool electroCharged = false;
     bool superConduct = false;
-    bool bloom = false;
+    [SerializeField] bool bloom = false;
     bool hyperBloom = false;
     bool burgeon = false;
     bool burning = false;
@@ -50,12 +51,15 @@ public class Enemy : MonoBehaviour
     float burgeonTime;
     [SerializeField]bool freezePosition = false;
     [SerializeField]GameObject dendroCore;
+    [SerializeField] float spawnRadiusCore;
     [SerializeField] GameObject CrystalizeShard;
     Rigidbody2D rb;
     RigidbodyConstraints2D rbConstraints;
     [SerializeField] float baseDamage;
     [SerializeField] float overloadedRadius;
-    [SerializeField] float overloadedDamage;
+    float overloadedDamage;
+    [SerializeField] float superConductRadius;
+    float superConductDamage;
     [SerializeField]float levelMultiplier;
 
     void Start()
@@ -103,6 +107,7 @@ public class Enemy : MonoBehaviour
         Timers();
         Applyfreeze();
         ApplyOverload();
+        ApplyBloom();
     }
 
     public void Reactions()
@@ -237,7 +242,27 @@ public class Enemy : MonoBehaviour
 
     void ApplySuperConduct()
     {
+        superConductDamage = 0.5f * levelMultiplier;
 
+        Vector2 point = new Vector2(transform.position.y, transform.position.x);
+        if (electro && overloaded && pyro)
+        {
+
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(point, superConductRadius);
+            foreach (Collider2D hitCollider in hitColliders)
+            {
+                if (hitCollider.gameObject.CompareTag("Enemy"))
+                {
+                    Debug.Log(hitCollider.gameObject);
+
+                    hitCollider.gameObject.GetComponent<Enemy>().damageTaken(superConductDamage);
+                }
+            }
+
+            electro = false;
+            pyro = false;
+            overloaded = false;
+        }
     }
 
     void ApplyElectroCharged()
@@ -245,6 +270,19 @@ public class Enemy : MonoBehaviour
 
     }
 
+    void ApplyBloom()
+    {
+        
+        if (dendro && hydro && bloom)
+        {
+            Vector2 position = new Vector2(transform.position.x, transform.position.y);
+            Vector2 randomCircle = Random.insideUnitCircle * spawnRadiusCore;
+            Instantiate(dendroCore, randomCircle + position, Quaternion.identity);
+            dendro = false;
+            bloom = false;
+            hydro = false;
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)    
     {
