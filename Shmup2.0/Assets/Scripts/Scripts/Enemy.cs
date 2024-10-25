@@ -108,6 +108,7 @@ public class Enemy : MonoBehaviour
         Applyfreeze();
         ApplyOverload();
         ApplyBloom();
+        ApplySuperConduct();
     }
 
     public void Reactions()
@@ -283,6 +284,14 @@ public class Enemy : MonoBehaviour
             hydro = false;
         }
     }
+
+    void ApplyCrystalize()
+    {
+        Vector2 position = new Vector2(transform.position.x, transform.position.y);
+        Vector2 randomCircle = Random.insideUnitCircle * spawnRadiusCore;
+        Instantiate(CrystalizeShard, randomCircle + position, Quaternion.identity);
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)    
     {

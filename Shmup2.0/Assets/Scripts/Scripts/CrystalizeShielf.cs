@@ -2,25 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HyperBloomCode : MonoBehaviour
+public class CrystalizeShielf : MonoBehaviour
 {
+
+    [SerializeField]float shieldHitPoints;
+    
     void Start()
     {
-        LocateClosest();
+        
     }
 
     void Update()
     {
         
-    }
-    
-    void Damage()
-    {
-
-    }
-
-    void LocateClosest()
-    {
-
     }
 }
