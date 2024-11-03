@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     int currentElement = 1;
     float cooldown;
     [SerializeField] float cooldownAmount;
-    int hitPoints = 3;
+    [SerializeField] int hitPoints = 3;
     bool bulletColor = true;
     [SerializeField]float speed;
     Rigidbody2D rb;
@@ -130,7 +130,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("Bullet") || !collision.gameObject.CompareTag("Bullet2"))
+        if ()
         hitPoints--;
         if (hitPoints <= 0)
             Destroy(gameObject);

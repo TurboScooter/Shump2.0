@@ -246,6 +246,7 @@ MonoBehaviour:
   overloadedRadius: 10
   superConductRadius: 0
   levelMultiplier: 17.16561
+  Damage: 0
 --- !u!212 &34267472
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -909,6 +910,7 @@ MonoBehaviour:
   overloadedRadius: 5
   superConductRadius: 5
   levelMultiplier: 17.165606
+  Damage: 0
 --- !u!212 &1644524831
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1349,6 +1351,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3066516113070920769, guid: f94b154e06fb28d42a3f61fbb95a3e56, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6648065419654445586, guid: f94b154e06fb28d42a3f61fbb95a3e56, type: 3}
       propertyPath: geoBullet
       value: 

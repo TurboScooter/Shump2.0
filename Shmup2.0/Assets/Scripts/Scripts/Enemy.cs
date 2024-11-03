@@ -62,6 +62,8 @@ public class Enemy : MonoBehaviour
     float superConductDamage;
     [SerializeField]float levelMultiplier;
 
+   public  float Damage;
+
     void Start()
     {
         powerUpChance = Random.Range(1, 5);

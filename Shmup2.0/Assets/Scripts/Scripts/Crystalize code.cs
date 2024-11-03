@@ -16,7 +16,7 @@ public class Crystalizecode : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {          
-            Instantiate(Shield, Player.transform.position, Player.transform.rotation);
+            Instantiate(Shield, Player.transform);
           Destroy(gameObject);
         }
     }
